@@ -15,9 +15,13 @@ const (
 	// DefaultGasAdjustment is applied to gas estimates to avoid tx execution
 	// failures due to state changes that might occur between the tx simulation
 	// and the actual run.
-	DefaultGasAdjustment = 1.0
+	DefaultGasAdjustment = 1.2
 	DefaultGasLimit      = 200000
 	GasFlagAuto          = "auto"
+
+	// FeesFlagAuto calculates the fees automatically by simulating the tx to get the gasWanted
+	// and using the global min gas price
+	FeesFlagAuto = "auto"
 
 	// DefaultKeyringBackend
 	DefaultKeyringBackend = keyring.BackendOS
