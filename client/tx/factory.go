@@ -150,7 +150,7 @@ func (f Factory) WithGas(gas uint64) Factory {
 func (f Factory) WithFees(fees string) Factory {
 	// When using the FeesFlagAuto, if not provided,
 	// simulate Tx to get the tx gas
-	if fees == flags.FeesFlagAuto{
+	if fees == flags.FeesFlagAuto {
 		f.simulateAndExecute = true
 		return f
 	}
