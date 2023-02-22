@@ -17,11 +17,8 @@ const (
 	// and the actual run.
 	DefaultGasAdjustment = 1.2
 	DefaultGasLimit      = 200000
-	GasFlagAuto          = "auto"
 
-	// FeesFlagAuto calculates the fees automatically by simulating the tx to get the gasWanted
-	// and using the global min gas price
-	FeesFlagAuto = "auto"
+	FlagAuto          = "auto"
 
 	// DefaultKeyringBackend
 	DefaultKeyringBackend = keyring.BackendOS
@@ -117,7 +114,7 @@ func AddTxFlagsToCmd(cmd *cobra.Command) {
 	f.Uint64P(FlagAccountNumber, "a", 0, "The account number of the signing account (offline mode only)")
 	f.Uint64P(FlagSequence, "s", 0, "The sequence number of the signing account (offline mode only)")
 	f.String(FlagNote, "", "Note to add a description to the transaction (previously --memo)")
-	f.String(FlagFees, FeesFlagAuto, fmt.Sprintf("Fees to pay along with transaction; eg: 10uatom. By default, is set to %q to calculate sufficient fees and gas automatically", FeesFlagAuto))
+	f.String(FlagFees, FlagAuto, fmt.Sprintf("Fees to pay along with transaction; eg: 10uatom. By default, is set to %q to calculate sufficient fees and gas automatically", FlagAuto))
 	f.String(FlagGasPrices, "", "Gas prices in decimal format to determine the transaction fee (e.g. 0.1uatom)")
 	f.String(FlagNode, "tcp://localhost:26657", "<host>:<port> to tendermint rpc interface for this chain")
 	f.Bool(FlagUseLedger, false, "Use a connected Ledger device")
@@ -136,7 +133,7 @@ func AddTxFlagsToCmd(cmd *cobra.Command) {
 	f.String(FlagChainID, "", "The network chain ID")
 	// --gas can accept integers and "auto"
 	f.String(FlagGas, "", fmt.Sprintf("gas limit to set per-transaction; set to %q to calculate sufficient gas automatically. Note: %q option doesn't always report accurate results. Set a valid coin value to adjust the result. Can be used instead of %q. (default %d)",
-		GasFlagAuto, GasFlagAuto, FlagFees, DefaultGasLimit))
+		FlagAuto, FlagAuto, FlagFees, DefaultGasLimit))
 
 	AddKeyringFlags(f)
 }
@@ -165,7 +162,7 @@ type GasSetting struct {
 
 func (v *GasSetting) String() string {
 	if v.Simulate {
-		return GasFlagAuto
+		return FlagAuto
 	}
 
 	return strconv.FormatUint(v.Gas, 10)
@@ -180,13 +177,13 @@ func ParseGasSetting(gasStr string) (GasSetting, error) {
 	case "":
 		return GasSetting{false, DefaultGasLimit}, nil
 
-	case GasFlagAuto:
+	case FlagAuto:
 		return GasSetting{true, 0}, nil
 
 	default:
 		gas, err := strconv.ParseUint(gasStr, 10, 64)
 		if err != nil {
-			return GasSetting{}, fmt.Errorf("gas must be either integer or %s", GasFlagAuto)
+			return GasSetting{}, fmt.Errorf("gas must be either integer or %s", FlagAuto)
 		}
 
 		return GasSetting{false, gas}, nil
