@@ -18,7 +18,7 @@ const (
 	DefaultGasAdjustment = 1.2
 	DefaultGasLimit      = 200000
 
-	FlagAuto          = "auto"
+	FlagAuto = "auto"
 
 	// DefaultKeyringBackend
 	DefaultKeyringBackend = keyring.BackendOS
