@@ -123,6 +123,7 @@ Ref: https://keepachangelog.com/en/1.0.0/
 * (store) [#14438](https://github.com/cosmos/cosmos-sdk/pull/14438)  Pass logger from baseapp to store. 
 * (store) [#14439](https://github.com/cosmos/cosmos-sdk/pull/14439) Remove global metric gatherer from store. 
     * By default store has a no op metric gatherer, the application developer must set another metric gatherer or us the provided one in `store/metrics`.
+* (cli) [#8](https://github.com/evmos/cosmos-sdk/pull/8) Add `auto` option for fees flag
 
 ### State Machine Breaking
 
