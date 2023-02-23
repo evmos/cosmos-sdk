@@ -26,7 +26,7 @@ func (k Keeper) Params(c context.Context, req *types.QueryParamsRequest) (*types
 }
 
 // ValidatorDistributionInfo query validator's commission and self-delegation rewards
-func (k Querier) ValidatorDistributionInfo(c context.Context, req *types.QueryValidatorDistributionInfoRequest) (*types.QueryValidatorDistributionInfoResponse, error) {
+func (k Keeper) ValidatorDistributionInfo(c context.Context, req *types.QueryValidatorDistributionInfoRequest) (*types.QueryValidatorDistributionInfoResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
