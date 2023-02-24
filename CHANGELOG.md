@@ -252,7 +252,7 @@ extension interfaces. `module.Manager.Modules` is now of type `map[string]interf
   Setting can be done using MsgSetSendEnabled as a governance proposal.
   A SendEnabled query has been added to both GRPC and CLI.
 
-## v0.46.10-ledger - 2023-02-24
+## [v0.46.10-ledger](https://github.com/evmos/cosmos-sdk/releases/tag/v0.46.10-ledger) - 2023-02-24
 
 ### Improvements
 
