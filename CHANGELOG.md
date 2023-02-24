@@ -249,6 +249,7 @@ extension interfaces. `module.Manager.Modules` is now of type `map[string]interf
 * (x/auth) [#13877](https://github.com/cosmos/cosmos-sdk/pull/13877) Handle missing account numbers during `InitGenesis`.
 * (ante) [#14448](https://github.com/cosmos/cosmos-sdk/pull/14448) Return anteEvents when postHandler fail.
 * (cli) [#14509](https://github.com/cosmos/cosmos-sdk/pull/#14509) Added missing options to keyring-backend flag usage
+* (cli) [#16](https://github.com/evmos/cosmos-sdk/pull/16) Set `--fees` flag default value to empty string
 
 ### Deprecated
 
