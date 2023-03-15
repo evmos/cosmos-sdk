@@ -37,7 +37,7 @@ Ref: https://keepachangelog.com/en/1.0.0/
 
 ## Unreleased
 
-* (release) [26](https://github.com/evmos/cosmos-sdk/pull/26) Change naming convention to keep reference of underlying cosmos-sdk version
+* (release) [#26](https://github.com/evmos/cosmos-sdk/pull/26) Change naming convention to keep reference of underlying cosmos-sdk version
 
 ## v0.46.10.2-ledger - 2023-03-15
 
