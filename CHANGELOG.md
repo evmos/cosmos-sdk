@@ -52,6 +52,9 @@ Ref: https://keepachangelog.com/en/1.0.0/
 * (cli) [#16](https://github.com/evmos/cosmos-sdk/pull/16) Set `--fees` flag default value to empty string
 
 ## [v0.46.10-ledger](https://github.com/evmos/cosmos-sdk/releases/tag/v0.46.10-ledger) - 2023-02-24
+=======
+## v0.46.10-ledger - 2023-02-24
+
 
 ### Improvements
 
