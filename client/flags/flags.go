@@ -114,7 +114,7 @@ func AddTxFlagsToCmd(cmd *cobra.Command) {
 	f.Uint64P(FlagAccountNumber, "a", 0, "The account number of the signing account (offline mode only)")
 	f.Uint64P(FlagSequence, "s", 0, "The sequence number of the signing account (offline mode only)")
 	f.String(FlagNote, "", "Note to add a description to the transaction (previously --memo)")
-	f.String(FlagFees, "", fmt.Sprintf("Fees to pay along with transaction; eg: 10uatom. Set to %q to calculate sufficient fees and gas automatically", FlagAuto))
+	f.String(FlagFees, "", "Fees to pay along with transaction; eg: 10uatom")
 	f.String(FlagGasPrices, "", "Gas prices in decimal format to determine the transaction fee (e.g. 0.1uatom)")
 	f.String(FlagNode, "tcp://localhost:26657", "<host>:<port> to tendermint rpc interface for this chain")
 	f.Bool(FlagUseLedger, false, "Use a connected Ledger device")
