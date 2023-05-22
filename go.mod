@@ -18,7 +18,7 @@ require (
 	github.com/cosmos/cosmos-proto v1.0.0-alpha7
 	github.com/cosmos/cosmos-sdk/db v1.0.0-beta.1
 	github.com/cosmos/go-bip39 v1.0.0
-	github.com/cosmos/iavl v0.19.5
+	github.com/cosmos/iavl v0.19.6-0.20230519111437-94ab9b2ae595
 	github.com/cosmos/ledger-cosmos-go v0.12.2
 	github.com/gogo/gateway v1.1.0
 	github.com/gogo/protobuf v1.3.2
