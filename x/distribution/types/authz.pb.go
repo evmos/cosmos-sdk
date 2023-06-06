@@ -32,49 +32,49 @@ type DistributionAuthorization struct {
 	AllowedList []string `protobuf:"bytes,2,rep,name=allowed_list,json=allowedList,proto3" json:"allowed_list,omitempty"`
 }
 
-func (m *DistributionAuthorization) Reset()         { *m = DistributionAuthorization{} }
-func (m *DistributionAuthorization) String() string { return proto.CompactTextString(m) }
-func (*DistributionAuthorization) ProtoMessage()    {}
+func (da *DistributionAuthorization) Reset()         { *da = DistributionAuthorization{} }
+func (da *DistributionAuthorization) String() string { return proto.CompactTextString(da) }
+func (*DistributionAuthorization) ProtoMessage()     {}
 func (*DistributionAuthorization) Descriptor() ([]byte, []int) {
 	return fileDescriptor_6f4334195c58df3b, []int{0}
 }
-func (m *DistributionAuthorization) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
+func (da *DistributionAuthorization) XXX_Unmarshal(b []byte) error {
+	return da.Unmarshal(b)
 }
-func (m *DistributionAuthorization) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (da *DistributionAuthorization) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_DistributionAuthorization.Marshal(b, m, deterministic)
+		return xxx_messageInfo_DistributionAuthorization.Marshal(b, da, deterministic)
 	} else {
 		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
+		n, err := da.MarshalToSizedBuffer(b)
 		if err != nil {
 			return nil, err
 		}
 		return b[:n], nil
 	}
 }
-func (m *DistributionAuthorization) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DistributionAuthorization.Merge(m, src)
+func (da *DistributionAuthorization) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_DistributionAuthorization.Merge(da, src)
 }
-func (m *DistributionAuthorization) XXX_Size() int {
-	return m.Size()
+func (da *DistributionAuthorization) XXX_Size() int {
+	return da.Size()
 }
-func (m *DistributionAuthorization) XXX_DiscardUnknown() {
-	xxx_messageInfo_DistributionAuthorization.DiscardUnknown(m)
+func (da *DistributionAuthorization) XXX_DiscardUnknown() {
+	xxx_messageInfo_DistributionAuthorization.DiscardUnknown(da)
 }
 
 var xxx_messageInfo_DistributionAuthorization proto.InternalMessageInfo
 
-func (m *DistributionAuthorization) GetMessageType() string {
-	if m != nil {
-		return m.MessageType
+func (da *DistributionAuthorization) GetMessageType() string {
+	if da != nil {
+		return da.MessageType
 	}
 	return ""
 }
 
-func (m *DistributionAuthorization) GetAllowedList() []string {
-	if m != nil {
-		return m.AllowedList
+func (da *DistributionAuthorization) GetAllowedList() []string {
+	if da != nil {
+		return da.AllowedList
 	}
 	return nil
 }
@@ -107,39 +107,39 @@ var fileDescriptor_6f4334195c58df3b = []byte{
 	0x27, 0x8d, 0x01, 0x01, 0x00, 0x00, 0xff, 0xff, 0x27, 0x43, 0x33, 0x09, 0x47, 0x01, 0x00, 0x00,
 }
 
-func (m *DistributionAuthorization) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
+func (da *DistributionAuthorization) Marshal() (dAtA []byte, err error) {
+	size := da.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	n, err := da.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
 	return dAtA[:n], nil
 }
 
-func (m *DistributionAuthorization) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
+func (da *DistributionAuthorization) MarshalTo(dAtA []byte) (int, error) {
+	size := da.Size()
+	return da.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *DistributionAuthorization) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (da *DistributionAuthorization) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.AllowedList) > 0 {
-		for iNdEx := len(m.AllowedList) - 1; iNdEx >= 0; iNdEx-- {
-			i -= len(m.AllowedList[iNdEx])
-			copy(dAtA[i:], m.AllowedList[iNdEx])
-			i = encodeVarintAuthz(dAtA, i, uint64(len(m.AllowedList[iNdEx])))
+	if len(da.AllowedList) > 0 {
+		for iNdEx := len(da.AllowedList) - 1; iNdEx >= 0; iNdEx-- {
+			i -= len(da.AllowedList[iNdEx])
+			copy(dAtA[i:], da.AllowedList[iNdEx])
+			i = encodeVarintAuthz(dAtA, i, uint64(len(da.AllowedList[iNdEx])))
 			i--
 			dAtA[i] = 0x12
 		}
 	}
-	if len(m.MessageType) > 0 {
-		i -= len(m.MessageType)
-		copy(dAtA[i:], m.MessageType)
-		i = encodeVarintAuthz(dAtA, i, uint64(len(m.MessageType)))
+	if len(da.MessageType) > 0 {
+		i -= len(da.MessageType)
+		copy(dAtA[i:], da.MessageType)
+		i = encodeVarintAuthz(dAtA, i, uint64(len(da.MessageType)))
 		i--
 		dAtA[i] = 0xa
 	}
@@ -157,18 +157,18 @@ func encodeVarintAuthz(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-func (m *DistributionAuthorization) Size() (n int) {
-	if m == nil {
+func (da *DistributionAuthorization) Size() (n int) {
+	if da == nil {
 		return 0
 	}
 	var l int
 	_ = l
-	l = len(m.MessageType)
+	l = len(da.MessageType)
 	if l > 0 {
 		n += 1 + l + sovAuthz(uint64(l))
 	}
-	if len(m.AllowedList) > 0 {
-		for _, s := range m.AllowedList {
+	if len(da.AllowedList) > 0 {
+		for _, s := range da.AllowedList {
 			l = len(s)
 			n += 1 + l + sovAuthz(uint64(l))
 		}
@@ -182,7 +182,7 @@ func sovAuthz(x uint64) (n int) {
 func sozAuthz(x uint64) (n int) {
 	return sovAuthz(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-func (m *DistributionAuthorization) Unmarshal(dAtA []byte) error {
+func (da *DistributionAuthorization) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -241,7 +241,7 @@ func (m *DistributionAuthorization) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.MessageType = string(dAtA[iNdEx:postIndex])
+			da.MessageType = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
@@ -273,7 +273,7 @@ func (m *DistributionAuthorization) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.AllowedList = append(m.AllowedList, string(dAtA[iNdEx:postIndex]))
+			da.AllowedList = append(da.AllowedList, string(dAtA[iNdEx:postIndex]))
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
