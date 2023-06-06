@@ -1,0 +1,24 @@
+syntax = "proto3";
+package cosmos.staking.v1beta1;
+
+import "gogoproto/gogo.proto";
+import "cosmos_proto/cosmos.proto";
+
+option go_package = "github.com/cosmos/cosmos-sdk/x/distribution/types";
+
+// DistributionAuthorization defines a grant that can be given to an address to allow them to
+// execute distribution messages on behalf of the granter.
+message DistributionAuthorization {
+  option (cosmos_proto.implements_interface) = "Authorization";
+
+  // message_type represents the type of the message that is authorized by this DistributionAuthorization.
+  string message_type = 1;
+  // allow_list specifies list of addresses that are allowed to execute the distribution messages.
+  Addresses allow_list = 2;
+
+  // Addresses defines list of addresses that are allowed to execute distribution transactions.
+  message Addresses {
+    repeated string addresses = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  }
+}
+
