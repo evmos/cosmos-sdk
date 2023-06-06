@@ -29,8 +29,8 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 type DistributionAuthorization struct {
 	// message_type represents the type of the message that is authorized by this DistributionAuthorization.
 	MessageType string `protobuf:"bytes,1,opt,name=message_type,json=messageType,proto3" json:"message_type,omitempty"`
-	// allow_list specifies list of addresses that are allowed to execute the distribution messages.
-	AllowList *DistributionAuthorization_Addresses `protobuf:"bytes,2,opt,name=allow_list,json=allowList,proto3" json:"allow_list,omitempty"`
+	// allowed_list specifies list of addresses that are allowed to execute the distribution messages.
+	AllowedList []string `protobuf:"bytes,2,rep,name=allowed_list,json=allowedList,proto3" json:"allowed_list,omitempty"`
 }
 
 func (m *DistributionAuthorization) Reset()         { *m = DistributionAuthorization{} }
@@ -73,61 +73,15 @@ func (m *DistributionAuthorization) GetMessageType() string {
 	return ""
 }
 
-func (m *DistributionAuthorization) GetAllowList() *DistributionAuthorization_Addresses {
+func (m *DistributionAuthorization) GetAllowedList() []string {
 	if m != nil {
-		return m.AllowList
-	}
-	return nil
-}
-
-// Addresses defines list of addresses that are allowed to execute distribution transactions.
-type DistributionAuthorization_Addresses struct {
-	Addresses []string `protobuf:"bytes,1,rep,name=addresses,proto3" json:"addresses,omitempty"`
-}
-
-func (m *DistributionAuthorization_Addresses) Reset()         { *m = DistributionAuthorization_Addresses{} }
-func (m *DistributionAuthorization_Addresses) String() string { return proto.CompactTextString(m) }
-func (*DistributionAuthorization_Addresses) ProtoMessage()    {}
-func (*DistributionAuthorization_Addresses) Descriptor() ([]byte, []int) {
-	return fileDescriptor_6f4334195c58df3b, []int{0, 0}
-}
-func (m *DistributionAuthorization_Addresses) XXX_Unmarshal(b []byte) error {
-	return m.Unmarshal(b)
-}
-func (m *DistributionAuthorization_Addresses) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	if deterministic {
-		return xxx_messageInfo_DistributionAuthorization_Addresses.Marshal(b, m, deterministic)
-	} else {
-		b = b[:cap(b)]
-		n, err := m.MarshalToSizedBuffer(b)
-		if err != nil {
-			return nil, err
-		}
-		return b[:n], nil
-	}
-}
-func (m *DistributionAuthorization_Addresses) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_DistributionAuthorization_Addresses.Merge(m, src)
-}
-func (m *DistributionAuthorization_Addresses) XXX_Size() int {
-	return m.Size()
-}
-func (m *DistributionAuthorization_Addresses) XXX_DiscardUnknown() {
-	xxx_messageInfo_DistributionAuthorization_Addresses.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_DistributionAuthorization_Addresses proto.InternalMessageInfo
-
-func (m *DistributionAuthorization_Addresses) GetAddresses() []string {
-	if m != nil {
-		return m.Addresses
+		return m.AllowedList
 	}
 	return nil
 }
 
 func init() {
 	proto.RegisterType((*DistributionAuthorization)(nil), "cosmos.staking.v1beta1.DistributionAuthorization")
-	proto.RegisterType((*DistributionAuthorization_Addresses)(nil), "cosmos.staking.v1beta1.DistributionAuthorization.Addresses")
 }
 
 func init() {
@@ -135,27 +89,25 @@ func init() {
 }
 
 var fileDescriptor_6f4334195c58df3b = []byte{
-	// 307 bytes of a gzipped FileDescriptorProto
+	// 273 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x52, 0x4f, 0xce, 0x2f, 0xce,
 	0xcd, 0x2f, 0xd6, 0x4f, 0xc9, 0x2c, 0x2e, 0x29, 0xca, 0x4c, 0x2a, 0x2d, 0xc9, 0xcc, 0xcf, 0xd3,
 	0x2f, 0x33, 0x4c, 0x4a, 0x2d, 0x49, 0x34, 0xd4, 0x4f, 0x2c, 0x2d, 0xc9, 0xa8, 0xd2, 0x2b, 0x28,
 	0xca, 0x2f, 0xc9, 0x17, 0x12, 0x83, 0x28, 0xd4, 0x2b, 0x2e, 0x49, 0xcc, 0xce, 0xcc, 0x4b, 0xd7,
 	0x83, 0xaa, 0x91, 0x12, 0x49, 0xcf, 0x4f, 0xcf, 0x07, 0x2b, 0xd1, 0x07, 0xb1, 0x20, 0xaa, 0xa5,
-	0x24, 0x21, 0xaa, 0xe3, 0x21, 0x12, 0x50, 0xad, 0x60, 0x8e, 0xd2, 0x27, 0x46, 0x2e, 0x49, 0x17,
-	0x24, 0xdb, 0x1c, 0x4b, 0x4b, 0x32, 0xf2, 0x8b, 0x32, 0xab, 0x12, 0x41, 0x1c, 0x21, 0x45, 0x2e,
-	0x9e, 0xdc, 0xd4, 0xe2, 0xe2, 0xc4, 0xf4, 0xd4, 0xf8, 0x92, 0xca, 0x82, 0x54, 0x09, 0x46, 0x05,
-	0x46, 0x0d, 0xce, 0x20, 0x6e, 0xa8, 0x58, 0x48, 0x65, 0x41, 0xaa, 0x50, 0x14, 0x17, 0x57, 0x62,
-	0x4e, 0x4e, 0x7e, 0x79, 0x7c, 0x4e, 0x66, 0x71, 0x89, 0x04, 0x93, 0x02, 0xa3, 0x06, 0xb7, 0x91,
-	0xb5, 0x1e, 0x76, 0xe7, 0xe9, 0xe1, 0xb4, 0x49, 0xcf, 0x31, 0x25, 0xa5, 0x28, 0xb5, 0xb8, 0x38,
-	0xb5, 0x38, 0x88, 0x13, 0x6c, 0x9c, 0x4f, 0x66, 0x71, 0x89, 0x94, 0x33, 0x17, 0x27, 0x5c, 0x5c,
-	0xc8, 0x8c, 0x8b, 0x33, 0x11, 0xc6, 0x91, 0x60, 0x54, 0x60, 0xd6, 0xe0, 0x74, 0x92, 0xb8, 0xb4,
-	0x45, 0x57, 0x04, 0x6a, 0x15, 0x54, 0x61, 0x70, 0x49, 0x51, 0x66, 0x5e, 0x7a, 0x10, 0x42, 0xa9,
-	0x95, 0xe0, 0xa9, 0x2d, 0xba, 0xbc, 0x28, 0x96, 0x39, 0x79, 0x9f, 0x78, 0x24, 0xc7, 0x78, 0xe1,
-	0x91, 0x1c, 0xe3, 0x83, 0x47, 0x72, 0x8c, 0x13, 0x1e, 0xcb, 0x31, 0x5c, 0x78, 0x2c, 0xc7, 0x70,
-	0xe3, 0xb1, 0x1c, 0x43, 0x94, 0x61, 0x7a, 0x66, 0x49, 0x46, 0x69, 0x92, 0x5e, 0x72, 0x7e, 0x2e,
-	0x34, 0x9c, 0xa0, 0x94, 0x6e, 0x71, 0x4a, 0xb6, 0x7e, 0x05, 0x6a, 0xc4, 0x80, 0x82, 0xa4, 0x38,
-	0x89, 0x0d, 0x1c, 0x90, 0xc6, 0x80, 0x00, 0x00, 0x00, 0xff, 0xff, 0xfb, 0xb7, 0xab, 0x52, 0xbc,
-	0x01, 0x00, 0x00,
+	0x24, 0x21, 0xaa, 0xe3, 0x21, 0x12, 0x50, 0xad, 0x60, 0x8e, 0x52, 0x1f, 0x23, 0x97, 0xa4, 0x0b,
+	0x92, 0x6d, 0x8e, 0xa5, 0x25, 0x19, 0xf9, 0x45, 0x99, 0x55, 0x89, 0x20, 0x8e, 0x90, 0x22, 0x17,
+	0x4f, 0x6e, 0x6a, 0x71, 0x71, 0x62, 0x7a, 0x6a, 0x7c, 0x49, 0x65, 0x41, 0xaa, 0x04, 0xa3, 0x02,
+	0xa3, 0x06, 0x67, 0x10, 0x37, 0x54, 0x2c, 0xa4, 0xb2, 0x20, 0x55, 0xc8, 0x9a, 0x8b, 0x27, 0x31,
+	0x27, 0x27, 0xbf, 0x3c, 0x35, 0x25, 0x3e, 0x27, 0xb3, 0xb8, 0x44, 0x82, 0x49, 0x81, 0x59, 0x83,
+	0xd3, 0x49, 0xe2, 0xd2, 0x16, 0x5d, 0x11, 0xa8, 0x45, 0x8e, 0x29, 0x29, 0x45, 0xa9, 0xc5, 0xc5,
+	0xc1, 0x25, 0x45, 0x99, 0x79, 0xe9, 0x41, 0xdc, 0x50, 0xd5, 0x3e, 0x99, 0xc5, 0x25, 0x56, 0x82,
+	0xa7, 0xb6, 0xe8, 0xf2, 0xa2, 0x58, 0xe9, 0xe4, 0x7d, 0xe2, 0x91, 0x1c, 0xe3, 0x85, 0x47, 0x72,
+	0x8c, 0x0f, 0x1e, 0xc9, 0x31, 0x4e, 0x78, 0x2c, 0xc7, 0x70, 0xe1, 0xb1, 0x1c, 0xc3, 0x8d, 0xc7,
+	0x72, 0x0c, 0x51, 0x86, 0xe9, 0x99, 0x25, 0x19, 0xa5, 0x49, 0x7a, 0xc9, 0xf9, 0xb9, 0x50, 0x3f,
+	0x40, 0x29, 0xdd, 0xe2, 0x94, 0x6c, 0xfd, 0x0a, 0xd4, 0x40, 0x03, 0x39, 0xb7, 0x38, 0x89, 0x0d,
+	0xec, 0x49, 0x63, 0x40, 0x00, 0x00, 0x00, 0xff, 0xff, 0x90, 0x9e, 0xff, 0x46, 0x58, 0x01, 0x00,
+	0x00,
 }
 
 func (m *DistributionAuthorization) Marshal() (dAtA []byte, err error) {
@@ -178,17 +130,14 @@ func (m *DistributionAuthorization) MarshalToSizedBuffer(dAtA []byte) (int, erro
 	_ = i
 	var l int
 	_ = l
-	if m.AllowList != nil {
-		{
-			size, err := m.AllowList.MarshalToSizedBuffer(dAtA[:i])
-			if err != nil {
-				return 0, err
-			}
-			i -= size
-			i = encodeVarintAuthz(dAtA, i, uint64(size))
+	if len(m.AllowedList) > 0 {
+		for iNdEx := len(m.AllowedList) - 1; iNdEx >= 0; iNdEx-- {
+			i -= len(m.AllowedList[iNdEx])
+			copy(dAtA[i:], m.AllowedList[iNdEx])
+			i = encodeVarintAuthz(dAtA, i, uint64(len(m.AllowedList[iNdEx])))
+			i--
+			dAtA[i] = 0x12
 		}
-		i--
-		dAtA[i] = 0x12
 	}
 	if len(m.MessageType) > 0 {
 		i -= len(m.MessageType)
@@ -196,38 +145,6 @@ func (m *DistributionAuthorization) MarshalToSizedBuffer(dAtA []byte) (int, erro
 		i = encodeVarintAuthz(dAtA, i, uint64(len(m.MessageType)))
 		i--
 		dAtA[i] = 0xa
-	}
-	return len(dAtA) - i, nil
-}
-
-func (m *DistributionAuthorization_Addresses) Marshal() (dAtA []byte, err error) {
-	size := m.Size()
-	dAtA = make([]byte, size)
-	n, err := m.MarshalToSizedBuffer(dAtA[:size])
-	if err != nil {
-		return nil, err
-	}
-	return dAtA[:n], nil
-}
-
-func (m *DistributionAuthorization_Addresses) MarshalTo(dAtA []byte) (int, error) {
-	size := m.Size()
-	return m.MarshalToSizedBuffer(dAtA[:size])
-}
-
-func (m *DistributionAuthorization_Addresses) MarshalToSizedBuffer(dAtA []byte) (int, error) {
-	i := len(dAtA)
-	_ = i
-	var l int
-	_ = l
-	if len(m.Addresses) > 0 {
-		for iNdEx := len(m.Addresses) - 1; iNdEx >= 0; iNdEx-- {
-			i -= len(m.Addresses[iNdEx])
-			copy(dAtA[i:], m.Addresses[iNdEx])
-			i = encodeVarintAuthz(dAtA, i, uint64(len(m.Addresses[iNdEx])))
-			i--
-			dAtA[i] = 0xa
-		}
 	}
 	return len(dAtA) - i, nil
 }
@@ -253,21 +170,8 @@ func (m *DistributionAuthorization) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovAuthz(uint64(l))
 	}
-	if m.AllowList != nil {
-		l = m.AllowList.Size()
-		n += 1 + l + sovAuthz(uint64(l))
-	}
-	return n
-}
-
-func (m *DistributionAuthorization_Addresses) Size() (n int) {
-	if m == nil {
-		return 0
-	}
-	var l int
-	_ = l
-	if len(m.Addresses) > 0 {
-		for _, s := range m.Addresses {
+	if len(m.AllowedList) > 0 {
+		for _, s := range m.AllowedList {
 			l = len(s)
 			n += 1 + l + sovAuthz(uint64(l))
 		}
@@ -344,93 +248,7 @@ func (m *DistributionAuthorization) Unmarshal(dAtA []byte) error {
 			iNdEx = postIndex
 		case 2:
 			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field AllowList", wireType)
-			}
-			var msglen int
-			for shift := uint(0); ; shift += 7 {
-				if shift >= 64 {
-					return ErrIntOverflowAuthz
-				}
-				if iNdEx >= l {
-					return io.ErrUnexpectedEOF
-				}
-				b := dAtA[iNdEx]
-				iNdEx++
-				msglen |= int(b&0x7F) << shift
-				if b < 0x80 {
-					break
-				}
-			}
-			if msglen < 0 {
-				return ErrInvalidLengthAuthz
-			}
-			postIndex := iNdEx + msglen
-			if postIndex < 0 {
-				return ErrInvalidLengthAuthz
-			}
-			if postIndex > l {
-				return io.ErrUnexpectedEOF
-			}
-			if m.AllowList == nil {
-				m.AllowList = &DistributionAuthorization_Addresses{}
-			}
-			if err := m.AllowList.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
-				return err
-			}
-			iNdEx = postIndex
-		default:
-			iNdEx = preIndex
-			skippy, err := skipAuthz(dAtA[iNdEx:])
-			if err != nil {
-				return err
-			}
-			if (skippy < 0) || (iNdEx+skippy) < 0 {
-				return ErrInvalidLengthAuthz
-			}
-			if (iNdEx + skippy) > l {
-				return io.ErrUnexpectedEOF
-			}
-			iNdEx += skippy
-		}
-	}
-
-	if iNdEx > l {
-		return io.ErrUnexpectedEOF
-	}
-	return nil
-}
-func (m *DistributionAuthorization_Addresses) Unmarshal(dAtA []byte) error {
-	l := len(dAtA)
-	iNdEx := 0
-	for iNdEx < l {
-		preIndex := iNdEx
-		var wire uint64
-		for shift := uint(0); ; shift += 7 {
-			if shift >= 64 {
-				return ErrIntOverflowAuthz
-			}
-			if iNdEx >= l {
-				return io.ErrUnexpectedEOF
-			}
-			b := dAtA[iNdEx]
-			iNdEx++
-			wire |= uint64(b&0x7F) << shift
-			if b < 0x80 {
-				break
-			}
-		}
-		fieldNum := int32(wire >> 3)
-		wireType := int(wire & 0x7)
-		if wireType == 4 {
-			return fmt.Errorf("proto: Addresses: wiretype end group for non-group")
-		}
-		if fieldNum <= 0 {
-			return fmt.Errorf("proto: Addresses: illegal tag %d (wire type %d)", fieldNum, wire)
-		}
-		switch fieldNum {
-		case 1:
-			if wireType != 2 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Addresses", wireType)
+				return fmt.Errorf("proto: wrong wireType = %d for field AllowedList", wireType)
 			}
 			var stringLen uint64
 			for shift := uint(0); ; shift += 7 {
@@ -458,7 +276,7 @@ func (m *DistributionAuthorization_Addresses) Unmarshal(dAtA []byte) error {
 			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			m.Addresses = append(m.Addresses, string(dAtA[iNdEx:postIndex]))
+			m.AllowedList = append(m.AllowedList, string(dAtA[iNdEx:postIndex]))
 			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
