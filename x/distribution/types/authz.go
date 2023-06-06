@@ -4,9 +4,18 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/cosmos/cosmos-sdk/x/authz"
+	"golang.org/x/exp/slices"
 )
 
 var _ authz.Authorization = &DistributionAuthorization{}
+
+// NewDistributionAuthorization creates a new DistributionAuthorization.
+func NewDistributionAuthorization(msgType string, allowed []string) *DistributionAuthorization {
+	return &DistributionAuthorization{
+		MessageType: msgType,
+		AllowedList: allowed,
+	}
+}
 
 // MsgTypeURL implements Authorization.MsgTypeURL.
 func (m *DistributionAuthorization) MsgTypeURL() string {
@@ -15,21 +24,21 @@ func (m *DistributionAuthorization) MsgTypeURL() string {
 
 // Accept implements Authorization.Accept. It checks, that the
 // withdrawer for MsgSetWithdrawAddress,
-// validator for MsgWithdrawValidatorCommission
+// validator for MsgWithdrawValidatorCommission,
 // the delegator address for MsgWithdrawDelegatorReward
 // is in the allowed list. If these conditions are met, the AcceptResponse is returned.
 func (m *DistributionAuthorization) Accept(ctx sdk.Context, msg sdk.Msg) (authz.AcceptResponse, error) {
 	switch msg := msg.(type) {
 	case *MsgSetWithdrawAddress:
-		if !checkAddressInList(msg.WithdrawAddress, m.AllowedList) {
+		if !slices.Contains(m.AllowedList, msg.WithdrawAddress) {
 			return authz.AcceptResponse{}, sdkerrors.ErrUnauthorized.Wrap("address is not in the allowed list")
 		}
 	case *MsgWithdrawValidatorCommission:
-		if !checkAddressInList(msg.ValidatorAddress, m.AllowedList) {
+		if !slices.Contains(m.AllowedList, msg.ValidatorAddress) {
 			return authz.AcceptResponse{}, sdkerrors.ErrUnauthorized.Wrap("address is not in the allowed list")
 		}
 	case *MsgWithdrawDelegatorReward:
-		if !checkAddressInList(msg.DelegatorAddress, m.AllowedList) {
+		if !slices.Contains(m.AllowedList, msg.DelegatorAddress) {
 			return authz.AcceptResponse{}, sdkerrors.ErrUnauthorized.Wrap("address is not in the allowed list")
 		}
 	default:
@@ -53,16 +62,4 @@ func (m *DistributionAuthorization) ValidateBasic() error {
 	}
 
 	return nil
-}
-
-// checkAddressInList checks if the given address is in the given list.
-// If the list is empty, it returns true.
-func checkAddressInList(address string, list []string) bool {
-	for _, addr := range list {
-		if addr == address {
-			return true
-		}
-	}
-
-	return false
 }
