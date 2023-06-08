@@ -9,6 +9,12 @@ import (
 
 var _ authz.Authorization = &DistributionAuthorization{}
 
+var (
+	SetWithdrawerAddressMsg        = sdk.MsgTypeURL(&MsgSetWithdrawAddress{})
+	WithdrawDelegatorRewardMsg     = sdk.MsgTypeURL(&MsgWithdrawDelegatorReward{})
+	WithdrawValidatorCommissionMsg = sdk.MsgTypeURL(&MsgWithdrawValidatorCommission{})
+)
+
 // NewDistributionAuthorization creates a new DistributionAuthorization.
 func NewDistributionAuthorization(msgType string, allowed ...string) *DistributionAuthorization {
 	return &DistributionAuthorization{

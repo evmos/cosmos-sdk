@@ -1,9 +1,10 @@
 package types_test
 
 import (
+	"testing"
+
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	distributiontypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
-	"testing"
 
 	"github.com/stretchr/testify/require"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
@@ -12,9 +13,11 @@ import (
 )
 
 var (
-	SetWithdrawerAddressMsg        = sdk.MsgTypeURL(&distributiontypes.MsgSetWithdrawAddress{})
-	WithdrawDelegatorRewardMsg     = sdk.MsgTypeURL(&distributiontypes.MsgWithdrawDelegatorReward{})
-	WithdrawValidatorCommissionMsg = sdk.MsgTypeURL(&distributiontypes.MsgWithdrawValidatorCommission{})
+	validatorAddr   = "cosmosvaloper1y54exmx84cqtasvjnskf9f63djuuj68p7hqf47"
+	delegatorAddr   = "cosmos1y54exmx84cqtasvjnskf9f63djuuj68p7hqf47"
+	randomAddr      = "cosmos1y54exmx84cqtasvjnskf9f63djuuj68p7hqf42"
+	withdrawerAddr  = "cosmos1y54exmx84cqtasvjnskf9f63djuuj68p7hqf48"
+	withdrawerAddr2 = "cosmos1y54exmx84cqtasvjnskf9f63djuuj68p7hqf46"
 )
 
 func TestAuthzAuthorizations(t *testing.T) {
@@ -31,57 +34,83 @@ func TestAuthzAuthorizations(t *testing.T) {
 	}{
 		{
 			"fail - set withdrawer address not in allowed list",
-			SetWithdrawerAddressMsg,
+			distributiontypes.SetWithdrawerAddressMsg,
 			&distributiontypes.MsgSetWithdrawAddress{
-				DelegatorAddress: "cosmos1y54exmx84cqtasvjnskf9f63djuuj68p7hqf47",
-				WithdrawAddress:  "cosmos1y54exmx84cqtasvjnskf9f63djuuj68p7hqf48",
+				DelegatorAddress: delegatorAddr,
+				WithdrawAddress:  withdrawerAddr,
 			},
 			distributiontypes.DistributionAuthorization{
-				MessageType: SetWithdrawerAddressMsg,
-				AllowedList: []string{"cosmos1y54exmx84cqtasvjnskf9f63djuuj68p7hqf47"},
+				MessageType: distributiontypes.SetWithdrawerAddressMsg,
+				AllowedList: []string{delegatorAddr},
 			},
-			[]string{"cosmos1y54exmx84cqtasvjnskf9f63djuuj68p7hqf47"},
+			[]string{delegatorAddr},
 			true,
 		},
 		{
 			"fail - withdraw validator commission address not in allowed list",
-			WithdrawValidatorCommissionMsg,
+			distributiontypes.WithdrawValidatorCommissionMsg,
 			&distributiontypes.MsgWithdrawValidatorCommission{
-				ValidatorAddress: "cosmosvaloper1y54exmx84cqtasvjnskf9f63djuuj68p7hqf47",
+				ValidatorAddress: validatorAddr,
 			},
 			distributiontypes.DistributionAuthorization{
-				MessageType: WithdrawValidatorCommissionMsg,
-				AllowedList: []string{"cosmos1y54exmx84cqtasvjnskf9f63djuuj68p7hqf47"},
+				MessageType: distributiontypes.WithdrawValidatorCommissionMsg,
+				AllowedList: []string{delegatorAddr},
 			},
-			[]string{"cosmos1y54exmx84cqtasvjnskf9f63djuuj68p7hqf47"},
+			[]string{delegatorAddr},
 			true,
 		},
 		{
 			"fail - withdraw delegator rewards address not in allowed list",
-			WithdrawValidatorCommissionMsg,
+			distributiontypes.WithdrawValidatorCommissionMsg,
 			&distributiontypes.MsgWithdrawDelegatorReward{
-				DelegatorAddress: "cosmos1y54exmx84cqtasvjnskf9f63djuuj68p7hqf47",
-				ValidatorAddress: "cosmosvaloper1y54exmx84cqtasvjnskf9f63djuuj68p7hqf47",
+				DelegatorAddress: delegatorAddr,
+				ValidatorAddress: validatorAddr,
 			},
 			distributiontypes.DistributionAuthorization{
-				MessageType: WithdrawValidatorCommissionMsg,
-				AllowedList: []string{"cosmos1y54exmx84cqtasvjnskf9f63djuuj68p7hqf42"},
+				MessageType: distributiontypes.WithdrawValidatorCommissionMsg,
+				AllowedList: []string{randomAddr},
 			},
-			[]string{"cosmos1y54exmx84cqtasvjnskf9f63djuuj68p7hqf42"},
+			[]string{randomAddr},
 			true,
 		},
 		{
 			"success - set withdrawer address in allowed list",
-			WithdrawValidatorCommissionMsg,
+			distributiontypes.WithdrawValidatorCommissionMsg,
 			&distributiontypes.MsgSetWithdrawAddress{
-				DelegatorAddress: "cosmos1y54exmx84cqtasvjnskf9f63djuuj68p7hqf47",
-				WithdrawAddress:  "cosmos1y54exmx84cqtasvjnskf9f63djuuj68p7hqf46",
+				DelegatorAddress: delegatorAddr,
+				WithdrawAddress:  withdrawerAddr2,
 			},
 			distributiontypes.DistributionAuthorization{
-				MessageType: WithdrawValidatorCommissionMsg,
-				AllowedList: []string{"cosmos1y54exmx84cqtasvjnskf9f63djuuj68p7hqf46"},
+				MessageType: distributiontypes.WithdrawValidatorCommissionMsg,
+				AllowedList: []string{withdrawerAddr2},
 			},
-			[]string{"cosmos1y54exmx84cqtasvjnskf9f63djuuj68p7hqf46"},
+			[]string{withdrawerAddr2},
+			false,
+		},
+		{
+			"success - withdraw delegator rewards address in allowed list",
+			distributiontypes.WithdrawDelegatorRewardMsg,
+			&distributiontypes.MsgWithdrawDelegatorReward{
+				DelegatorAddress: delegatorAddr,
+			},
+			distributiontypes.DistributionAuthorization{
+				MessageType: distributiontypes.WithdrawDelegatorRewardMsg,
+				AllowedList: []string{delegatorAddr},
+			},
+			[]string{delegatorAddr},
+			false,
+		},
+		{
+			"success - withdraw validator commission address in allowed list",
+			distributiontypes.WithdrawValidatorCommissionMsg,
+			&distributiontypes.MsgWithdrawValidatorCommission{
+				ValidatorAddress: validatorAddr,
+			},
+			distributiontypes.DistributionAuthorization{
+				MessageType: distributiontypes.WithdrawValidatorCommissionMsg,
+				AllowedList: []string{validatorAddr},
+			},
+			[]string{validatorAddr},
 			false,
 		},
 	}
@@ -89,7 +118,7 @@ func TestAuthzAuthorizations(t *testing.T) {
 	for _, tc := range testCases {
 		tc := tc
 		t.Run(tc.name, func(t *testing.T) {
-			distAuth := distributiontypes.NewDistributionAuthorization(tc.msgTypeUrl, tc.allowed)
+			distAuth := distributiontypes.NewDistributionAuthorization(tc.msgTypeUrl, tc.allowed...)
 			resp, err := distAuth.Accept(ctx, tc.msg)
 			if tc.expectErr {
 				require.Error(t, err)

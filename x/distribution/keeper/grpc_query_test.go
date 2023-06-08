@@ -3,8 +3,9 @@ package keeper_test
 import (
 	gocontext "context"
 	"fmt"
-	"github.com/cosmos/cosmos-sdk/x/distribution/keeper"
 	"testing"
+
+	"github.com/cosmos/cosmos-sdk/x/distribution/keeper"
 
 	"github.com/stretchr/testify/suite"
 	tmproto "github.com/tendermint/tendermint/proto/tendermint/types"
