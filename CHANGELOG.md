@@ -35,7 +35,7 @@ Ref: https://keepachangelog.com/en/1.0.0/
 
 # Changelog
 
-## [v0.46.11-alpha.ledger.8](https://github.com/cosmos/cosmos-sdk/releases/tag/v0.46.13)
+## [v0.46.13-alpha.ledger.8](https://github.com/cosmos/cosmos-sdk/releases/tag/v0.46.13-alpha.ledger.8)
 
 ### Improvements
 
