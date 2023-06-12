@@ -28,7 +28,8 @@ import (
 // It panics if the user provides files for both of them.
 // If a file is not given for the genesis or the sim params, it creates a randomized one.
 func AppStateFn(cdc codec.JSONCodec, simManager *module.SimulationManager) simtypes.AppStateFn {
-	return AppStateFnWithExtendedCb(cdc, simManager, nil)
+  	genesisState := NewDefaultGenesisState(cdc)
+	return AppStateFnWithExtendedCb(cdc, simManager, genesisState, nil)
 }
 
 // AppStateFnWithExtendedCb returns the initial application state using a genesis or the simulation parameters.
