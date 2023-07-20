@@ -5,15 +5,11 @@ import (
 	"fmt"
 	"testing"
 
-<<<<<<< HEAD:tests/integration/distribution/keeper/grpc_query_test.go
 	"cosmossdk.io/math"
 	tmproto "github.com/cometbft/cometbft/proto/tendermint/types"
-=======
-	"github.com/cosmos/cosmos-sdk/x/distribution/keeper"
-
->>>>>>> 3c1014899 (feat(distr): add distribution authorization (#35)):x/distribution/keeper/grpc_query_test.go
+	
 	"github.com/stretchr/testify/suite"
-
+	
 	"github.com/cosmos/cosmos-sdk/baseapp"
 	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	simtestutil "github.com/cosmos/cosmos-sdk/testutil/sims"
@@ -56,14 +52,8 @@ func (suite *KeeperTestSuite) SetupTest() {
 
 	ctx := app.BaseApp.NewContext(false, tmproto.Header{})
 
-<<<<<<< HEAD:tests/integration/distribution/keeper/grpc_query_test.go
 	queryHelper := baseapp.NewQueryServerTestHelper(ctx, suite.interfaceRegistry)
 	types.RegisterQueryServer(queryHelper, keeper.NewQuerier(suite.distrKeeper))
-=======
-	queryHelper := baseapp.NewQueryServerTestHelper(ctx, app.InterfaceRegistry())
-	querySrv := keeper.NewQuerier(app.DistrKeeper)
-	types.RegisterQueryServer(queryHelper, querySrv)
->>>>>>> 3c1014899 (feat(distr): add distribution authorization (#35)):x/distribution/keeper/grpc_query_test.go
 	queryClient := types.NewQueryClient(queryHelper)
 
 	suite.ctx = ctx
@@ -378,14 +368,8 @@ func (suite *KeeperTestSuite) TestGRPCDelegationRewards() {
 	staking.EndBlocker(ctx, suite.stakingKeeper)
 	ctx = ctx.WithBlockHeight(ctx.BlockHeight() + 1)
 
-<<<<<<< HEAD:tests/integration/distribution/keeper/grpc_query_test.go
 	queryHelper := baseapp.NewQueryServerTestHelper(ctx, suite.interfaceRegistry)
 	types.RegisterQueryServer(queryHelper, keeper.NewQuerier(suite.distrKeeper))
-=======
-	queryHelper := baseapp.NewQueryServerTestHelper(ctx, app.InterfaceRegistry())
-	querySrv := keeper.NewQuerier(app.DistrKeeper)
-	types.RegisterQueryServer(queryHelper, querySrv)
->>>>>>> 3c1014899 (feat(distr): add distribution authorization (#35)):x/distribution/keeper/grpc_query_test.go
 	queryClient := types.NewQueryClient(queryHelper)
 
 	val := suite.stakingKeeper.Validator(ctx, valAddrs[0])
