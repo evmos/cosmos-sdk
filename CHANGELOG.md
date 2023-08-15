@@ -35,7 +35,7 @@ Ref: https://keepachangelog.com/en/1.0.0/
 
 # Changelog
 
-## Unreleased
+## [v0.47.4-evmos.2] - 2023-08-15
 
 ### Improvements
 
