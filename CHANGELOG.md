@@ -36,7 +36,17 @@ Ref: https://keepachangelog.com/en/1.0.0/
 
 # Changelog
 
+<<<<<<< HEAD
 ## [Unreleased]
+=======
+## [v0.47.4-evmos.2] - 2023-08-15
+
+### Improvements
+
+* (cli) [#44](https://github.com/evmos/cosmos-sdk/pull/44) Convert `DefaultGasAdjustment` to `var` to allow customization of the value
+
+## [v0.47.4-evmos] - 2023-07-31
+>>>>>>> a3b98a4a1 (chore: convert DefaultGasAdjustment to var (#44))
 
 ### Features
 
