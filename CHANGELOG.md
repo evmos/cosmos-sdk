@@ -36,17 +36,7 @@ Ref: https://keepachangelog.com/en/1.0.0/
 
 # Changelog
 
-<<<<<<< HEAD
 ## [Unreleased]
-=======
-## [v0.47.4-evmos.2] - 2023-08-15
-
-### Improvements
-
-* (cli) [#44](https://github.com/evmos/cosmos-sdk/pull/44) Convert `DefaultGasAdjustment` to `var` to allow customization of the value
-
-## [v0.47.4-evmos] - 2023-07-31
->>>>>>> a3b98a4a1 (chore: convert DefaultGasAdjustment to var (#44))
 
 ### Features
 
@@ -59,6 +49,7 @@ Ref: https://keepachangelog.com/en/1.0.0/
 * (server) [#18478](https://github.com/cosmos/cosmos-sdk/pull/18478) Add command flag to disable colored logs.
 * (x/gov) [#18025](https://github.com/cosmos/cosmos-sdk/pull/18025) Improve `<appd> q gov proposer` by querying directly a proposal instead of tx events. It is an alias of `q gov proposal` as the proposer is a field of the proposal.
 * (version) [#18063](https://github.com/cosmos/cosmos-sdk/pull/18063) Allow to define extra info to be displayed in `<appd> version --long` command.
+* (cli) [#44](https://github.com/evmos/cosmos-sdk/pull/44) Convert `DefaultGasAdjustment` to `var` to allow customization of the value
 
 ### Bug Fixes
 
