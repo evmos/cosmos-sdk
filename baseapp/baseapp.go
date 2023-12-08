@@ -1074,3 +1074,7 @@ func NoOpProcessProposal() sdk.ProcessProposalHandler {
 func (app *BaseApp) Close() error {
 	return nil
 }
+
+func (app *BaseApp) ChainID() string {
+	return app.chainID
+}
