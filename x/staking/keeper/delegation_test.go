@@ -11,6 +11,7 @@ import (
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/x/bank/testutil"
 	disttypes "github.com/cosmos/cosmos-sdk/x/distribution/types"
+	"github.com/cosmos/cosmos-sdk/x/staking"
 	"github.com/cosmos/cosmos-sdk/x/staking/keeper"
 	"github.com/cosmos/cosmos-sdk/x/staking/teststaking"
 	"github.com/cosmos/cosmos-sdk/x/staking/types"
@@ -1176,4 +1177,68 @@ func TestRedelegateFromUnbondedValidator(t *testing.T) {
 	// no red should have been found
 	red, found := app.StakingKeeper.GetRedelegation(ctx, addrDels[0], addrVals[0], addrVals[1])
 	require.False(t, found, "%v", red)
+}
+
+func TestProbonoDelegationToConsensusPower_Settlus(t *testing.T) {
+	_, app, ctx := createSettlusTestInput(t)
+
+	addrDels := simapp.AddTestAddrsIncremental(app, ctx, 1, app.StakingKeeper.TokensFromConsensusPower(ctx, 1))
+	addrVals := simapp.ConvertAddrsToValAddrs(addrDels)
+
+	bondDenom := app.StakingKeeper.BondDenom(ctx)
+	notBondedPool := app.StakingKeeper.GetNotBondedPool(ctx)
+
+	startTokens := app.StakingKeeper.TokensFromConsensusPower(ctx, 1)
+	startCoins := sdk.NewCoins(sdk.NewCoin(bondDenom, startTokens))
+	
+	require.NoError(t, testutil.FundModuleAccount(app.BankKeeper, ctx, notBondedPool.GetName(), startCoins))
+	app.AccountKeeper.SetModuleAccount(ctx, notBondedPool)
+
+	// create a validator with a self-delegation
+	validator := teststaking.NewValidator(t, addrVals[0], PKs[0])
+	validator, issuedShares := validator.AddTokensFromDel(startTokens)
+	require.Equal(t, startTokens, issuedShares.RoundInt())
+
+	// add bonded tokens to pool for delegations
+	bondedPool := app.StakingKeeper.GetBondedPool(ctx)
+	require.NoError(t, testutil.FundModuleAccount(app.BankKeeper, ctx, bondedPool.GetName(), startCoins))
+	app.AccountKeeper.SetModuleAccount(ctx, bondedPool)
+
+	// set delegation for validator
+	validator = keeper.TestingUpdateValidator(app.StakingKeeper, ctx, validator, true)
+	delegation := types.NewDelegation(addrDels[0], addrVals[0], issuedShares)
+	app.StakingKeeper.SetDelegation(ctx, delegation)
+
+	// set validator to probono
+	validator.Probono = true
+	validator = keeper.TestingUpdateValidator(app.StakingKeeper, ctx, validator, true)
+	require.True(t, validator.IsBonded())
+
+	// reset community pool
+	app.DistrKeeper.SetFeePool(ctx, disttypes.InitialFeePool())
+
+	// add some amount to community pool
+	initCommPoolAmt :=  app.StakingKeeper.PowerReduction(ctx).Mul(sdk.NewInt(10))
+	initCommPoolCoin := sdk.NewCoin(bondDenom, initCommPoolAmt)
+	require.NoError(t, testutil.FundModuleAccount(app.BankKeeper, ctx, disttypes.ModuleName, sdk.NewCoins(initCommPoolCoin)))
+	feePool := app.DistrKeeper.GetFeePool(ctx)
+	feePool.CommunityPool = feePool.CommunityPool.Add(sdk.NewDecCoinsFromCoins(sdk.NewCoin(bondDenom, initCommPoolAmt))...)
+	app.DistrKeeper.SetFeePool(ctx, feePool)
+	require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecFromInt(initCommPoolAmt)}}, app.DistrKeeper.GetFeePool(ctx).CommunityPool)
+
+	// update power reduction
+	oldPower := app.StakingKeeper.PowerReduction(ctx)
+	newPower := oldPower.Mul(sdk.NewInt(10))
+	sdk.DefaultPowerReduction = newPower
+
+	// after ProbonoDelegationToConsensusPower, the community pool should be reduced by the amount of the delegation
+	err := app.StakingKeeper.ProbonoDelegationToConsensusPower(ctx, validator)
+	// end block
+	staking.EndBlocker(ctx, app.StakingKeeper)
+	require.NoError(t, err)
+	require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecFromInt(startTokens)}}, app.DistrKeeper.GetFeePool(ctx).CommunityPool)
+	require.Equal(t, newPower, validator.GetBondedTokens())
+	
+	//set back power reduction
+	sdk.DefaultPowerReduction = oldPower
 }

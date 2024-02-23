@@ -635,12 +635,6 @@ func (k Keeper) Delegate(
 		err = k.BeforeDelegationCreated(ctx, delAddr, validator.GetOperator())
 	}
 
-	if err != nil {
-		return sdk.ZeroDec(), err
-	}
-
-	delegatorAddress := sdk.MustAccAddressFromBech32(delegation.DelegatorAddress)
-
 	// we should check if the added delegation amount makes total bonded token exceeds max delegation amount if it is set
 	if validator.MaxDelegation.IsPositive() {
 		remainingDel, err := k.GetRemainingDelegation(ctx, validator.GetOperator())
@@ -652,6 +646,8 @@ func (k Keeper) Delegate(
 			return sdk.ZeroDec(), types.ErrMaxStakingAmountReached
 		}
 	}
+
+	delegatorAddress := sdk.MustAccAddressFromBech32(delegation.DelegatorAddress)
 
 	// if subtractAccount is true then we are
 	// performing a delegation and not a redelegation, thus the source tokens are
@@ -1050,4 +1046,28 @@ func (k Keeper) ValidateUnbondAmount(
 	}
 
 	return shares, nil
+}
+
+func (k Keeper) ProbonoDelegationToConsensusPower(ctx sdk.Context, validator types.Validator) (err error) {
+	if !validator.IsProbono() {
+		return types.ErrValidatorNotProbono
+	}
+
+	valAddr := validator.GetOperator()
+	selfDelAddr := sdk.AccAddress(valAddr)
+
+	selfDel, found := k.GetDelegation(ctx, selfDelAddr, valAddr)
+	if !found {
+		return types.ErrNoDelegation
+	}
+
+	if validator.TokensFromShares(selfDel.Shares).TruncateInt().LT(k.PowerReduction(ctx)) {
+		additionAmt := k.PowerReduction(ctx).Sub(validator.TokensFromShares(selfDel.Shares).TruncateInt())
+		_, err := k.Delegate(ctx, selfDelAddr, additionAmt, types.Unbonded, validator, true)
+		if err != nil {
+			return err
+		}
+	}
+
+	return nil
 }
