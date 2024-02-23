@@ -1186,11 +1186,11 @@ func TestProbonoDelegationToConsensusPower_Settlus(t *testing.T) {
 	addrVals := simapp.ConvertAddrsToValAddrs(addrDels)
 
 	bondDenom := app.StakingKeeper.BondDenom(ctx)
-	notBondedPool := app.StakingKeeper.GetNotBondedPool(ctx)
 
 	startTokens := app.StakingKeeper.TokensFromConsensusPower(ctx, 1)
 	startCoins := sdk.NewCoins(sdk.NewCoin(bondDenom, startTokens))
 	
+	notBondedPool := app.StakingKeeper.GetNotBondedPool(ctx)
 	require.NoError(t, testutil.FundModuleAccount(app.BankKeeper, ctx, notBondedPool.GetName(), startCoins))
 	app.AccountKeeper.SetModuleAccount(ctx, notBondedPool)
 
@@ -1233,12 +1233,19 @@ func TestProbonoDelegationToConsensusPower_Settlus(t *testing.T) {
 
 	// after ProbonoDelegationToConsensusPower, the community pool should be reduced by the amount of the delegation
 	err := app.StakingKeeper.ProbonoDelegationToConsensusPower(ctx, validator)
-	// end block
-	staking.EndBlocker(ctx, app.StakingKeeper)
 	require.NoError(t, err)
-	require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecFromInt(startTokens)}}, app.DistrKeeper.GetFeePool(ctx).CommunityPool)
-	require.Equal(t, newPower, validator.GetBondedTokens())
+
+	// execute end block
+	staking.EndBlocker(ctx, app.StakingKeeper)
+
+	val := app.StakingKeeper.Validator(ctx, addrVals[0])
 	
-	//set back power reduction
+	// community pool reduced to 10 * power to 1 * power
+	require.Equal(t, sdk.DecCoins{{Denom: sdk.DefaultBondDenom, Amount: sdk.NewDecFromInt(startTokens)}}, app.DistrKeeper.GetFeePool(ctx).CommunityPool)
+	
+	// validator's bonded token updated to new power reduction
+	require.Equal(t, newPower, val.GetBondedTokens())
+	
+	//set back power reduction for other tests
 	sdk.DefaultPowerReduction = oldPower
 }
