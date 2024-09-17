@@ -70,6 +70,8 @@ func (k Keeper) GetParams(ctx sdk.Context) (params types.Params) {
 	store := ctx.KVStore(k.storeKey)
 	bz := store.Get(types.ParamsKey)
 	if bz == nil {
+		params = types.DefaultParams()
+		params.BondDenom = "aevmos"
 		return params
 	}
 
