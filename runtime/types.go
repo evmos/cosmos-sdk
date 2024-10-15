@@ -4,6 +4,7 @@ import (
 	abci "github.com/cometbft/cometbft/abci/types"
 
 	"github.com/cosmos/cosmos-sdk/codec"
+	codectypes "github.com/cosmos/cosmos-sdk/codec/types"
 	"github.com/cosmos/cosmos-sdk/server/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/module"
@@ -39,3 +40,7 @@ type AppI interface {
 	// Helper for the simulation framework.
 	SimulationManager() *module.SimulationManager
 }
+
+type CustomRegisterInterfaces func(codectypes.InterfaceRegistry)
+
+type CustomRegisterLegacyAminoCodec func(*codec.LegacyAmino)

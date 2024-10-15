@@ -81,7 +81,11 @@ func init() {
 	)
 }
 
-func ProvideApp(interfaceRegistry codectypes.InterfaceRegistry) (
+func ProvideApp(
+	interfaceRegistry codectypes.InterfaceRegistry,
+	customRegisterInterfaces CustomRegisterInterfaces,
+	customRegisterLegacyAminoCodec CustomRegisterLegacyAminoCodec,
+) (
 	codec.Codec,
 	*codec.LegacyAmino,
 	*AppBuilder,
@@ -104,8 +108,16 @@ func ProvideApp(interfaceRegistry codectypes.InterfaceRegistry) (
 
 	amino := codec.NewLegacyAmino()
 
-	std.RegisterInterfaces(interfaceRegistry)
-	std.RegisterLegacyAminoCodec(amino)
+	if customRegisterInterfaces != nil {
+		customRegisterInterfaces(interfaceRegistry)
+	} else {
+		std.RegisterInterfaces(interfaceRegistry)
+	}
+	if customRegisterLegacyAminoCodec != nil {
+		customRegisterLegacyAminoCodec(amino)
+	} else {
+		std.RegisterLegacyAminoCodec(amino)
+	}
 
 	cdc := codec.NewProtoCodec(interfaceRegistry)
 	msgServiceRouter := baseapp.NewMsgServiceRouter()
